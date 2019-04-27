@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |--------------------------------------------------------------------------
 |
 */
-$config['site_name'] = 'RefCMS';
+$config['site_name'] = 'REFCMS';
 
 /*
 |--------------------------------------------------------------------------

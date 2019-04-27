@@ -1,10 +1,10 @@
 # REFCMS-Lite
-Simple Framework base on CodeIgniter for Rapid &amp; Small Project (Developed for Personal Projects Purpose)
+Simple CodeIgniter Based Framework for Rapid &amp; Small Project (Developed for Personal Purpose)
 
 Based with: CodeIgniter 3 & Bootstrap 3
 
 # Feature Build-in
-- `Application` moved to `app-backend`, `application/views` move to `app-frontend`
+- `application` moved to `app-backend`, `application/views` move to `app-frontend`
 - Auth Pre-Functions
 - Clean URL (no index.php)
 - Login & Register Template
@@ -13,7 +13,7 @@ Based with: CodeIgniter 3 & Bootstrap 3
 - DataTables
 
 # Installation
-- Edit config from `/app-config/config.php`  and `/app-config/databases.php`
+- Edit config from `/app-backend/config/config.php`  and `/app-backend/config/databases.php`
 - Run `composer install` or Extract `vendor.zip`
 - Open Project from Browsers. Ex: `http://localhost/Projects/REFCMS-Lite/`
 - Start with `/app-backend/controllers/Starter.php`
@@ -47,8 +47,8 @@ $this->load->view('_templates/footer', $foot);
           	
           </div> 
           <div class="panel-body">  
-
-			</div>
+            Page Content
+		  </div>
         </div>
     </div>
     <!-- /.row -->
@@ -74,7 +74,7 @@ $this->load->view('_templates/footer', $foot);
 </tr>
 </thead>
 <tbody>
-<?php if($datadata != ""): ?>
+<?php if($data != ""): ?>
 <?php foreach ($data as $row): ?>
 <tr>
     <td><?=$row->X;?></td>
@@ -116,7 +116,8 @@ Javascript:
 ```
 
 ## Report Usage
-```$this->load->library('pdf');
+```
+$this->load->library('pdf');
 
 $this->pdf->setPaper('A4', 'potrait');
 $this->pdf->filename = "laporan.pdf";
@@ -127,5 +128,6 @@ $this->pdf->load_view('report_pdf', $data);
 # Changelog
 
 ## v1.0.1
+ - Fix base code from v1.0.0 (not released version)
  - Update PDF Library
  - Add vendor.zip (composer libarry)
