@@ -21,7 +21,7 @@
                   <tr>
                     <th>No</th>
                     <th>Jadwal</th>
-                    <th>Nama Jadwal</th>
+                    <th>Tipe Kelas</th>
                     <th>Jumlah Peserta</th>
                     <th>Aksi</th>
                   </tr>
@@ -30,8 +30,8 @@
                     <?php if($jadwal != ""): $no = 1; foreach($jadwal as $row): ?>
                   <tr>
                     <td><?=$no++;?></td>
-                    <td><?=$row->id_jadwal;?></td>
-                    <td><?=$row->nama_jadwal;?></td>
+                    <td><?=$row->tanggal;?></td>
+                    <td><?=$row->tipe_kelas;?></td>
                     <td><?='0';?></td>
                     <td>
                         <a class="btn btn-warning" href="<?=base_url('home/jadwal?edit='. $row->id_jadwal);?>">Ubah</a>

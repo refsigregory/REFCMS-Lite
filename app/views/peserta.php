@@ -4,15 +4,14 @@
 <div class="container-fluid">
 
   <!-- Page Content -->
-  <h1>Kelas</h1>
+  <h1>Peserta</h1>
     <hr>
     <p>
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-users"></i>
-            Daftar Kelas
-            <a class="btn btn-primary" href="<?=base_url('home/kelas/?tambah');?>">TAMBAH</a>
+            Data Peserta
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -20,22 +19,20 @@
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Jadwal</th>
-                    <th>Nama Kelas</th>
-                    <th>Jumlah Peserta</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <?php if($kelas != ""): $no = 1; foreach($kelas as $row): ?>
+                    <?php if($peserta != ""): $no = 1; foreach($peserta as $row): ?>
                   <tr>
                     <td><?=$no++;?></td>
-                    <td><?=$this->jadwal_model->getByID($row->id_jadwal)[0]->tipe_kelas;?> <?=$this->jadwal_model->getByID($row->id_jadwal)[0]->tanggal;?></td>
-                    <td><?=$row->nama_kelas;?></td>
-                    <td><?='0';?></td>
+                    <td><?=$row->id_user;?></td>
+                    <td><?=$row->id_kelas;?></td>
                     <td>
-                        <a class="btn btn-warning" href="<?=base_url('home/kelas?edit='. $row->id_kelas);?>">Ubah</a>
-                        <a class="btn btn-danger" href="<?=base_url('home/kelas?delete='. $row->id_kelas);?>" onclick="return Tanya()">Hapus</a>
+                        <a class="btn btn-warning" href="<?=base_url('home/mahasiswa?edit='. $row->id_user);?>">Ubah</a>
+                        <a class="btn btn-danger" href="<?=base_url('home/mahasiswa?delete='. $row->id_user);?>" onclick="return Tanya()">Hapus</a>
                     </td>
                   </tr>
                     <?php endforeach; endif;?>

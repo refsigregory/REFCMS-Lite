@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 07, 2019 at 02:27 PM
+-- Generation Time: Nov 13, 2019 at 04:03 PM
 -- Server version: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- PHP Version: 7.2.19-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -47,6 +47,19 @@ CREATE TABLE `tb_kelas` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_notifikasi`
+--
+
+CREATE TABLE `tb_notifikasi` (
+  `id_notifikasi` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `message` varchar(50) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_peserta`
 --
 
@@ -54,7 +67,8 @@ CREATE TABLE `tb_peserta` (
   `id_peserta` int(11) NOT NULL,
   `id_kelas` int(11) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
-  `bukti_pembayaran` varchar(50) DEFAULT NULL
+  `bukti_pembayaran` varchar(50) DEFAULT NULL,
+  `status_permbayaran` set('menunggu','terverifikasi') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -77,13 +91,6 @@ CREATE TABLE `tb_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tb_users`
---
-
-INSERT INTO `tb_users` (`id_user`, `username`, `password`, `tipe_user`, `email`, `nama`, `nim`, `jenis_kelamin`, `telepon`, `alamat`) VALUES
-(1, 'admin', 'admin', 'admin', NULL, NULL, NULL, '', NULL, NULL);
-
---
 -- Indexes for dumped tables
 --
 
@@ -101,12 +108,20 @@ ALTER TABLE `tb_kelas`
   ADD KEY `id_jadwal` (`id_jadwal`);
 
 --
+-- Indexes for table `tb_notifikasi`
+--
+ALTER TABLE `tb_notifikasi`
+  ADD PRIMARY KEY (`id_notifikasi`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Indexes for table `tb_peserta`
 --
 ALTER TABLE `tb_peserta`
   ADD PRIMARY KEY (`id_peserta`),
   ADD KEY `id_kelas` (`id_kelas`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `status_permbayaran` (`status_permbayaran`);
 
 --
 -- Indexes for table `tb_users`
@@ -125,6 +140,11 @@ ALTER TABLE `tb_users`
 ALTER TABLE `tb_kelas`
   MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `tb_notifikasi`
+--
+ALTER TABLE `tb_notifikasi`
+  MODIFY `id_notifikasi` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `tb_peserta`
 --
 ALTER TABLE `tb_peserta`
@@ -133,7 +153,7 @@ ALTER TABLE `tb_peserta`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -143,6 +163,12 @@ ALTER TABLE `tb_users`
 --
 ALTER TABLE `tb_kelas`
   ADD CONSTRAINT `tb_kelas_ibfk_1` FOREIGN KEY (`id_jadwal`) REFERENCES `tb_jadwal` (`id_jadwal`);
+
+--
+-- Constraints for table `tb_notifikasi`
+--
+ALTER TABLE `tb_notifikasi`
+  ADD CONSTRAINT `tb_notifikasi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `tb_users` (`id_user`);
 
 --
 -- Constraints for table `tb_peserta`

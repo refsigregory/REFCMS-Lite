@@ -6,6 +6,8 @@ class Home extends CI_Controller {
     {
         parent::__construct();
         $this->auth_model->logged_in();
+        $this->load->model('jadwal_model');
+        $this->load->model('kelas_model');
     }
 	public function index()
 	{
@@ -121,18 +123,19 @@ class Home extends CI_Controller {
                 $this->load->view('include/sidemenu');
 
                 $data['name'] = $this->config->item("site_name");
-                $data['kelas'] = $this->user_model->getKelas();
+                $data['kelas'] = $this->kelas_model->getAll();
+                $data['jadwal'] = $this->jadwal_model->getAll();
                 $this->load->view('kelas', $data);
 
                 if(isset($_GET['tambah']))
                 {
-                    $this->load->view('modal_tambah_user.php');
+                    $this->load->view('modal_tambah_kelas.php');
                 }
 
                 if(isset($_GET['edit']))
                 {
                     $data['edit'] = $this->user_model->getByID($_GET['edit'])[0];
-                    $this->load->view('modal_ubah_user.php', $data);
+                    $this->load->view('modal_ubah_kelas.php', $data);
                 }
 
                 if(isset($_GET['delete']))
@@ -143,6 +146,35 @@ class Home extends CI_Controller {
 
                 $foot['name'] = $data['name'];
                 $this->load->view('include/footer', $foot);
+    }
+
+    public function tambahKelas()
+    {
+		$data = $this->input->post();
+		if(true) {
+			foreach($data as $item=>$value){
+				if($value == ""){
+					$err[] = ucfirst($item) . " tidak boleh kosong!";
+				}
+			}
+
+			if(!isset($err))
+			{
+                //$data = array_merge($data, ["tipe_user" => 'mahasiswa']);
+                $this->kelas_model->insert($data);
+				$msg = "Data User Berhasil Ditambah";
+				$this->session->set_flashdata('msg', array('type' => 'success', 'message' => $msg));
+				redirect('home/kelas', 'refresh');
+			}else {
+				$msg = implode(" ", $err);
+				$this->session->set_flashdata('msg', array('type' => 'error', 'message' => $msg));
+				redirect('home/kelas', 'refresh');
+			}
+		}else {
+			$msg = "Data Mahasiswa tidak ada";
+			$this->session->set_flashdata('msg', array('type' => 'error', 'message' => $msg));
+			redirect('home/kelas', 'refresh');
+		}
     }
 
     public function jadwal()
@@ -158,19 +190,75 @@ class Home extends CI_Controller {
 
                 if(isset($_GET['tambah']))
                 {
-                    $this->load->view('modal_tambah_user.php');
+                    $this->load->view('modal_tambah_jadwal.php');
                 }
 
                 if(isset($_GET['edit']))
                 {
                     $data['edit'] = $this->user_model->getByID($_GET['edit'])[0];
-                    $this->load->view('modal_ubah_user.php', $data);
+                    $this->load->view('modal_ubah_jadwal.php', $data);
                 }
 
                 if(isset($_GET['delete']))
                 {
                     $this->user_model->delete($_GET['delete']);
                     redirect('home/jadwal');
+                }
+
+                $foot['name'] = $data['name'];
+                $this->load->view('include/footer', $foot);
+    }
+
+    public function tambahJadwal()
+    {
+		$data = $this->input->post();
+		if(true) {
+			foreach($data as $item=>$value){
+				if($value == ""){
+					$err[] = ucfirst($item) . " tidak boleh kosong!";
+				}
+			}
+
+			if(!isset($err))
+			{
+                //$data = array_merge($data);
+                $this->jadwal_model->insert($data);
+				$msg = "Data User Berhasil Ditambah";
+				$this->session->set_flashdata('msg', array('type' => 'success', 'message' => $msg));
+				redirect('home/jadwal', 'refresh');
+			}else {
+				$msg = implode(" ", $err);
+				$this->session->set_flashdata('msg', array('type' => 'error', 'message' => $msg));
+				redirect('home/jadwal', 'refresh');
+			}
+		}else {
+			$msg = "Data Mahasiswa tidak ada";
+			$this->session->set_flashdata('msg', array('type' => 'error', 'message' => $msg));
+			redirect('home/jadwal', 'refresh');
+		}
+    }
+
+    public function peserta()
+	{
+                $head['title'] = $this->config->item("site_name");
+                $this->load->view('include/header', $head);
+
+                $this->load->view('include/sidemenu');
+
+                $data['name'] = $this->config->item("site_name");
+                $data['peserta'] = $this->user_model->getJadwal();
+                $this->load->view('peserta', $data);
+
+                if(isset($_GET['edit']))
+                {
+                    $data['edit'] = $this->user_model->getByID($_GET['edit'])[0];
+                    $this->load->view('modal_ubah_peserta.php', $data);
+                }
+
+                if(isset($_GET['delete']))
+                {
+                    $this->user_model->delete($_GET['delete']);
+                    redirect('home/peserta');
                 }
 
                 $foot['name'] = $data['name'];
